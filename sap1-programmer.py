@@ -62,6 +62,6 @@ def main():
             os.system('rm sapFinal1.bin;rm sapFinal2.bin')
             print('Dilemna deleted, Britta for the win! Get your sap1 on duder')
         else:
-            "Nope, that's not an option, try again."
+            print("Nope, that's not an option, try again.")
 if __name__ == "__main__":
 	main()
