@@ -53,4 +53,6 @@ def main():
     input("Insert Right Chip into Progrmmer and Press Enter when Ready")
     termout = os.popen('minipro -p CAT28C16A -w sapFinal2.bin').read()
     print(termout)
-main()
+
+if __name__ == "__main__":
+	main()
