@@ -22,9 +22,9 @@ def main():
     MI|CO, RO|II|CE, IO|MI, RO|AI, 0,        0,0,0, # LDA   0001 0000
     MI|CO, RO|II|CE, IO|MI, RO|BI, AI|EO,    0,0,0, # ADD   0010 0000
     MI|CO, RO|II|CE, IO|MI, RO|BI, AI|EO|SU, 0,0,0, # SUB   0011 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   0100 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   0101 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   0110 0000
+    MI|CO, RO|II|CE, IO|MI, AI|RI, 0,        0,0,0, # STA   0100 0000
+    MI|CO, RO|II|CE, IO|AI, 0,     0,        0,0,0, # LDI   0101 0000
+    MI|CO, RO|II|CE, IO|J,  0,     0,        0,0,0, # JMP   0110 0000
     MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   0111 0000
     MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1000 0000
     MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1001 0000
