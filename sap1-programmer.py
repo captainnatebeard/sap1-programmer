@@ -56,9 +56,9 @@ def main():
     keepOutput = ''
     while keepOutput.upper() != 'Y' and keepOutput.upper() != 'N':
         keepOutput = input("programming finished, would you like to keep the binary files you created? (y/n)")
-        if keepOut.upper() == 'Y':
+        if keepOutput.upper() == 'Y':
             print("cool, have fun with your sap1 homie!")
-        elif keepOut.upper() == 'N':
+        elif keepOutput.upper() == 'N':
             os.system('rm sapFinal1.bin;rm sapFinal2.bin')
             print('Dilemna deleted, Britta for the win! Get your sap1 on duder')
         else:
