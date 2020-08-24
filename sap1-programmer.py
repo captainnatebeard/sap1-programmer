@@ -53,6 +53,15 @@ def main():
     input("Insert Right Chip into Progrmmer and Press Enter when Ready")
     termout = os.popen('minipro -p CAT28C16A -w sapFinal2.bin').read()
     print(termout)
-
+    keepOutput = ''
+    while keepOutput.upper() != 'Y' and keepOutput.upper() != 'N':
+        keepOutput = input("programming finished, would you like to keep the binary files you created? (y/n)")
+        if keepOut.upper() == 'Y':
+            print("cool, have fun with your sap1 homie!")
+        elif keepOut.upper() == 'N':
+            os.system('rm sapFinal1.bin;rm sapFinal2.bin')
+            print('Dilemna deleted, Britta for the win! Get your sap1 on duder')
+        else:
+            "Nope, that's not an option, try again."
 if __name__ == "__main__":
 	main()
