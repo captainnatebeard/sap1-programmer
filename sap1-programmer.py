@@ -1,4 +1,14 @@
+#!//usr/local/bin/python3
+
+
+# not to be used with python 3.6!!!!!  This script takes advantage of python 3.7's
+# ordered dictionary functionality
+
 import os
+import sys
+
+EEPROM_SIZE = 2048
+ADDR_BIT_LENGTH = 10
 
 def main():
     HLT = 32768
@@ -16,28 +26,43 @@ def main():
     CE = 8
     CO = 4
     J = 2
+    FI = 1
 
-    instFull = [
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   0000 0000
-    MI|CO, RO|II|CE, IO|MI, RO|AI, 0,        0,0,0, # LDA   0001 0000
-    MI|CO, RO|II|CE, IO|MI, RO|BI, AI|EO,    0,0,0, # ADD   0010 0000
-    MI|CO, RO|II|CE, IO|MI, RO|BI, AI|EO|SU, 0,0,0, # SUB   0011 0000
-    MI|CO, RO|II|CE, IO|MI, AO|RI, 0,        0,0,0, # STA   0100 0000
-    MI|CO, RO|II|CE, IO|AI, 0,     0,        0,0,0, # LDI   0101 0000
-    MI|CO, RO|II|CE, IO|J,  0,     0,        0,0,0, # JMP   0110 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   0111 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1000 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1001 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1010 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1011 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1100 0000
-    MI|CO, RO|II|CE, 0,     0,     0,        0,0,0, # NOP   1101 0000
-    MI|CO, RO|II|CE, AO|DI, 0,     0,        0,0,0, # DSP   1110 0000
-    MI|CO, RO|II|CE, HLT,   0,     0,        0,0,0  # HLT   1111 0000
-    ]
+    instTemplate = {
+    "NOP": [MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 0000
+    "LDA": [MI|CO, RO|II|CE, IO|MI, RO|AI, 0,           0,0,0], # 0001
+    "ADD": [MI|CO, RO|II|CE, IO|MI, RO|BI, AI|EO|FI,    0,0,0], # 0010
+    "SUB": [MI|CO, RO|II|CE, IO|MI, RO|BI, AI|EO|SU|FI, 0,0,0], # 0011
+    "STA": [MI|CO, RO|II|CE, IO|MI, AO|RI, 0,           0,0,0], # 0100
+    "LDI": [MI|CO, RO|II|CE, IO|AI, 0,     0,           0,0,0], # 0101
+    "JMP": [MI|CO, RO|II|CE, IO|J,  0,     0,           0,0,0], # 0110
+    "JC":  [MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 0111
+    "JZ":  [MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 1000
+    "NOP2":[MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 1001
+    "NOP3":[MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 1010
+    "NOP4":[MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 1011
+    "NOP5":[MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 1100
+    "NOP6":[MI|CO, RO|II|CE, 0,     0,     0,           0,0,0], # 1101
+    "DSP": [MI|CO, RO|II|CE, AO|DI, 0,     0,           0,0,0], # 1110
+    "HLT": [MI|CO, RO|II|CE, HLT,   0,     0,           0,0,0]  # 1111
+    }
 
-    chipOne = bytearray(2048)
-    chipTwo = bytearray(2048)
+    instFull = list()
+    for i in range(EEPROM_SIZE):
+        instFull.append(0)
+    count = 0
+    for i in range(int((2**ADDR_BIT_LENGTH)/(len(instTemplate) * len(instTemplate["NOP"])))): #it's just 8 folks, don't sweat
+        for j in instTemplate:
+            if (j == "JC" and i in [2,3,6,7]) or (j == "JZ" and i in [4,5,6,7]):
+                ret = [MI|CO, RO|II|CE, IO|J, 0, 0, 0, 0, 0]
+            else:
+                ret = instTemplate[j]
+            for k in ret:
+                instFull[count] = k
+                count += 1
+
+    chipOne = bytearray(EEPROM_SIZE)
+    chipTwo = bytearray(EEPROM_SIZE)
     address = 0
     for i in instFull:
         chipOne[address] = i >> 8
