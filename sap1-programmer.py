@@ -1,9 +1,11 @@
 #!//usr/local/bin/python3
 
-
-# not to be used with python below version 3.7!!!!!  This script takes advantage of python 3.7's
+# I tried to stick wth the spirit of the SAP1, and kept this code as simple as possible.  Feel free to reach out
+# if you have any questions.
+# This code is not to be used with python below version 3.7!!!!!  This script takes advantage of python 3.7's
 # ordered dictionary functionality
 # Also please note that my 'Jump if Carry' and 'Jump if Zero' are switched from the way Ben's computer is wired
+# (wires running into IO 8 and 9 are switched)
 # and while it should make no difference, it should be noted that  only use half of each EEPROM, therefore,
 # The EEPROM's are NOT programmed the same, and address bit 7 is tied to ground on both of my EEPROMs
 
@@ -57,7 +59,7 @@ def main():
     for i in range(int((2**ADDR_BIT_LENGTH)/(len(instTemplate) * len(instTemplate["NOP"])))): #it's just 8 folks, don't sweat
         for j in instTemplate:
             if (j == "JC" and i in [2,3,6,7]) or (j == "JZ" and i in [4,5,6,7]):
-                ret = [MI|CO, RO|II|CE, IO|J, 0, 0, 0, 0, 0]
+                ret = instTemplate['JMP']
             else:
                 ret = instTemplate[j]
             for k in ret:
