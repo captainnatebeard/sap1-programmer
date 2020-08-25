@@ -1,7 +1,7 @@
 #!//usr/local/bin/python3
 
 
-# not to be used with python 3.6!!!!!  This script takes advantage of python 3.7's
+# not to be used with python below version 3.7!!!!!  This script takes advantage of python 3.7's
 # ordered dictionary functionality
 
 import os
