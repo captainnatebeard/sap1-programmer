@@ -3,6 +3,9 @@
 
 # not to be used with python below version 3.7!!!!!  This script takes advantage of python 3.7's
 # ordered dictionary functionality
+# Also please note that my 'Jump if Carry' and 'Jump if Zero' are switched from the way Ben's computer is wired
+# and while it should make no difference, it should be noted that  only use half of each EEPROM, therefore,
+# The EEPROM's are NOT programmed the same, and address bit 7 is tied to ground on both of my EEPROMs
 
 import os
 import sys
