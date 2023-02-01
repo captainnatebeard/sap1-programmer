@@ -80,7 +80,7 @@ def main():
     input("Insert Left Chip into Programmer and Press Enter when Ready")
     termout = os.popen('minipro -p CAT28C16A -w sapFinal1.bin').read()
     print(termout)
-    input("Insert Right Chip into Progrmmer and Press Enter when Ready")
+    input("Insert Right Chip into Programmer and Press Enter when Ready")
     termout = os.popen('minipro -p CAT28C16A -w sapFinal2.bin').read()
     print(termout)
     keepOutput = ''
